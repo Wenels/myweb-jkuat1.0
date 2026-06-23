@@ -15,9 +15,9 @@ export default function Hero() {
 
           {/* Subtext */}
           <p className="text-slate-400 text-lg leading-relaxed max-w-md">
-            NovaStore We got  your best smart watch to match your lifestyle, goals, and
-            personal style. Whether you're tracking fitness or making a fashion
-            statement.
+            NovaStore We got your best smart watch to match your lifestyle,
+            goals, and personal style. Whether you're tracking fitness or making
+            a fashion statement.
           </p>
 
           {/* Buttons */}
@@ -38,7 +38,7 @@ export default function Hero() {
               Add to cart
             </button>
 
-             <button
+            <button
               type="button"
               className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-6 py-3 rounded-full transition-all duration-200 hover:scale-105"
             >

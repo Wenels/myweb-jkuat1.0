@@ -7,24 +7,222 @@ import { useState } from "react";
 
 // Product data — watches with Unsplash images
 const PRODUCTS = [
-  { id: 1, name: "Chronos Elite", category: "Smart Watches", price: 199.99, oldPrice: 249.0, rating: 5, stock: 12, badge: "Trending", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&auto=format&fit=crop" },
-  { id: 2, name: "Nova Sport Pro", category: "Smart Watches", price: 149.99, oldPrice: 189.0, rating: 4, stock: 8, badge: "Trending", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&auto=format&fit=crop" },
-  { id: 3, name: "Apex Fitness Band", category: "Smart Watches", price: 89.99, oldPrice: 120.0, rating: 5, stock: 15, badge: "Trending", image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&auto=format&fit=crop" },
-  { id: 4, name: "Luxe Gold Watch", category: "Smart Watches", price: 299.99, oldPrice: 369.0, rating: 4, stock: 10, badge: "Trending", image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&auto=format&fit=crop" },
-  { id: 5, name: "Stealth Black Pro", category: "Smart Watches", price: 219.99, oldPrice: 270.0, rating: 5, stock: 6, badge: "Trending", image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&auto=format&fit=crop" },
-  { id: 6, name: "Urban Classic", category: "Smart Watches", price: 179.99, oldPrice: 220.0, rating: 4, stock: 20, badge: "Trending", image: "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&auto=format&fit=crop" },
-  { id: 7, name: "Pulse Tracker X", category: "Fitness Bands", price: 69.99, oldPrice: 90.0, rating: 5, stock: 18, badge: "Trending", image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=400&auto=format&fit=crop" },
-  { id: 8, name: "FitBand Ultra", category: "Fitness Bands", price: 59.99, oldPrice: 79.0, rating: 4, stock: 9, badge: "Trending", image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&auto=format&fit=crop" },
-  { id: 9, name: "CardioMax Band", category: "Fitness Bands", price: 79.99, oldPrice: 99.0, rating: 5, stock: 14, badge: "Trending", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&auto=format&fit=crop" },
-  { id: 10, name: "SlimFit Tracker", category: "Fitness Bands", price: 49.99, oldPrice: 65.0, rating: 4, stock: 22, badge: "Trending", image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&auto=format&fit=crop" },
-  { id: 11, name: "Diamond Luxury", category: "Luxury Watches", price: 499.99, oldPrice: 599.0, rating: 5, stock: 5, badge: "Trending", image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&auto=format&fit=crop" },
-  { id: 12, name: "Gold Prestige", category: "Luxury Watches", price: 599.99, oldPrice: 720.0, rating: 4, stock: 3, badge: "Trending", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&auto=format&fit=crop" },
-  { id: 13, name: "Platinum Series", category: "Luxury Watches", price: 799.99, oldPrice: 950.0, rating: 5, stock: 4, badge: "Trending", image: "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&auto=format&fit=crop" },
-  { id: 14, name: "Elite Rose Gold", category: "Luxury Watches", price: 649.99, oldPrice: 780.0, rating: 5, stock: 6, badge: "Trending", image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=400&auto=format&fit=crop" },
-  { id: 15, name: "Kids Dino Watch", category: "Kids Watches", price: 29.99, oldPrice: 39.0, rating: 5, stock: 25, badge: "Trending", image: "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&auto=format&fit=crop" },
-  { id: 16, name: "Kids Sport Band", category: "Kids Watches", price: 24.99, oldPrice: 34.0, rating: 4, stock: 30, badge: "Trending", image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&auto=format&fit=crop" },
-  { id: 17, name: "Kids Galaxy Watch", category: "Kids Watches", price: 34.99, oldPrice: 44.0, rating: 5, stock: 20, badge: "Trending", image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&auto=format&fit=crop" },
-  { id: 18, name: "Kids Adventure", category: "Kids Watches", price: 39.99, oldPrice: 49.0, rating: 4, stock: 18, badge: "Trending", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&auto=format&fit=crop" },
+  {
+    id: 1,
+    name: "Chronos Elite",
+    category: "Smart Watches",
+    price: 199.99,
+    oldPrice: 249.0,
+    rating: 5,
+    stock: 12,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 2,
+    name: "Nova Sport Pro",
+    category: "Smart Watches",
+    price: 149.99,
+    oldPrice: 189.0,
+    rating: 4,
+    stock: 8,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    name: "Apex Fitness Band",
+    category: "Smart Watches",
+    price: 89.99,
+    oldPrice: 120.0,
+    rating: 5,
+    stock: 15,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    name: "Luxe Gold Watch",
+    category: "Smart Watches",
+    price: 299.99,
+    oldPrice: 369.0,
+    rating: 4,
+    stock: 10,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 5,
+    name: "Stealth Black Pro",
+    category: "Smart Watches",
+    price: 219.99,
+    oldPrice: 270.0,
+    rating: 5,
+    stock: 6,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 6,
+    name: "Urban Classic",
+    category: "Smart Watches",
+    price: 179.99,
+    oldPrice: 220.0,
+    rating: 4,
+    stock: 20,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 7,
+    name: "Pulse Tracker X",
+    category: "Fitness Bands",
+    price: 69.99,
+    oldPrice: 90.0,
+    rating: 5,
+    stock: 18,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 8,
+    name: "FitBand Ultra",
+    category: "Fitness Bands",
+    price: 59.99,
+    oldPrice: 79.0,
+    rating: 4,
+    stock: 9,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 9,
+    name: "CardioMax Band",
+    category: "Fitness Bands",
+    price: 79.99,
+    oldPrice: 99.0,
+    rating: 5,
+    stock: 14,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 10,
+    name: "SlimFit Tracker",
+    category: "Fitness Bands",
+    price: 49.99,
+    oldPrice: 65.0,
+    rating: 4,
+    stock: 22,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 11,
+    name: "Diamond Luxury",
+    category: "Luxury Watches",
+    price: 499.99,
+    oldPrice: 599.0,
+    rating: 5,
+    stock: 5,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 12,
+    name: "Gold Prestige",
+    category: "Luxury Watches",
+    price: 599.99,
+    oldPrice: 720.0,
+    rating: 4,
+    stock: 3,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 13,
+    name: "Platinum Series",
+    category: "Luxury Watches",
+    price: 799.99,
+    oldPrice: 950.0,
+    rating: 5,
+    stock: 4,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 14,
+    name: "Elite Rose Gold",
+    category: "Luxury Watches",
+    price: 649.99,
+    oldPrice: 780.0,
+    rating: 5,
+    stock: 6,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 15,
+    name: "Kids Dino Watch",
+    category: "Kids Watches",
+    price: 29.99,
+    oldPrice: 39.0,
+    rating: 5,
+    stock: 25,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 16,
+    name: "Kids Sport Band",
+    category: "Kids Watches",
+    price: 24.99,
+    oldPrice: 34.0,
+    rating: 4,
+    stock: 30,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 17,
+    name: "Kids Galaxy Watch",
+    category: "Kids Watches",
+    price: 34.99,
+    oldPrice: 44.0,
+    rating: 5,
+    stock: 20,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400&auto=format&fit=crop",
+  },
+  {
+    id: 18,
+    name: "Kids Adventure",
+    category: "Kids Watches",
+    price: 39.99,
+    oldPrice: 49.0,
+    rating: 4,
+    stock: 18,
+    badge: "Trending",
+    image:
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&auto=format&fit=crop",
+  },
 ];
 
 // Category filter options
@@ -63,7 +261,6 @@ export default function Products() {
   return (
     <section id="products" className="bg-[#0f172a] py-24">
       <div className="max-w-7xl mx-auto px-8">
-
         {/* Header row */}
         <div className="flex items-start justify-between mb-6">
           <div>
@@ -110,7 +307,9 @@ export default function Products() {
             >
               <span>{emoji}</span>
               {label}
-              <span className="text-xs opacity-60">· {PRODUCTS.filter(p => p.category === label).length} Products</span>
+              <span className="text-xs opacity-60">
+                · {PRODUCTS.filter((p) => p.category === label).length} Products
+              </span>
             </button>
           ))}
         </div>
@@ -125,7 +324,6 @@ export default function Products() {
               >
                 {/* Product image area */}
                 <div className="relative bg-slate-700/50 flex items-center justify-center h-48 overflow-hidden">
-
                   {/* Trending badge */}
                   {product.badge && (
                     <span className="absolute top-3 left-3 z-10 bg-indigo-500 text-white text-xs font-semibold px-2 py-0.5 rounded-md">
@@ -160,19 +358,24 @@ export default function Products() {
 
                 {/* Product info */}
                 <div className="p-4 flex flex-col gap-2">
-
                   {/* Category */}
                   <p className="text-slate-400 text-xs">{product.category}</p>
 
                   {/* Name */}
-                  <h3 className="text-white font-bold text-sm">{product.name}</h3>
+                  <h3 className="text-white font-bold text-sm">
+                    {product.name}
+                  </h3>
 
                   {/* Star rating */}
                   <div className="flex items-center gap-1">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span
                         key={`${product.id}-star-${i}`}
-                        className={i < product.rating ? "text-amber-400 text-xs" : "text-slate-600 text-xs"}
+                        className={
+                          i < product.rating
+                            ? "text-amber-400 text-xs"
+                            : "text-slate-600 text-xs"
+                        }
                       >
                         ★
                       </span>
@@ -180,15 +383,21 @@ export default function Products() {
                   </div>
 
                   {/* Stock */}
-                  <p className="text-slate-500 text-xs">Stock: {product.stock} pieces</p>
+                  <p className="text-slate-500 text-xs">
+                    Stock: {product.stock} pieces
+                  </p>
 
                   {/* Price row */}
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-2">
                       {/* Current price */}
-                      <span className="text-white font-bold text-sm">${product.price.toFixed(2)}</span>
+                      <span className="text-white font-bold text-sm">
+                        ${product.price.toFixed(2)}
+                      </span>
                       {/* Old price */}
-                      <span className="text-slate-500 text-xs line-through">${product.oldPrice.toFixed(2)}</span>
+                      <span className="text-slate-500 text-xs line-through">
+                        ${product.oldPrice.toFixed(2)}
+                      </span>
                     </div>
 
                     {/* Add to cart button */}
@@ -232,7 +441,6 @@ export default function Products() {
             </Link>
           )}
         </div>
-
       </div>
     </section>
   );

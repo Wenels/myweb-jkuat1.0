@@ -101,7 +101,8 @@ export default function Footer() {
 
             {/* Description */}
             <p className="text-gray-500 text-sm leading-relaxed">
-              We collaborate with thousands of creators, entrepreneurs and complete legends.
+              We collaborate with thousands of creators, entrepreneurs and
+              complete legends.
             </p>
 
             {/* Social icons */}
@@ -128,18 +129,16 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <h4 className="text-gray-900 font-semibold text-sm">Company</h4>
             <ul className="flex flex-col gap-3">
-              {["Community", "Testimonial"].map(
-                (item) => (
-                  <li key={item}>
-                    <a
-                      href="/"
-                      className="text-gray-500 hover:text-indigo-600 text-sm transition-colors"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ),
-              )}
+              {["Community", "Testimonial"].map((item) => (
+                <li key={item}>
+                  <a
+                    href="/"
+                    className="text-gray-500 hover:text-indigo-600 text-sm transition-colors"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
               {/* Company — scrolls to respective section */}
               <li>
                 <a
@@ -220,7 +219,6 @@ export default function Footer() {
                   Help Center
                 </a>
               </li>
-              
             </ul>
           </div>
 
@@ -228,9 +226,7 @@ export default function Footer() {
           <div className="flex flex-col gap-4">
             <h4 className="text-gray-900 font-semibold text-sm">Links</h4>
             <ul className="flex flex-col gap-3">
-              {[
-                "All in One",
-              ].map((item) => (
+              {["All in One"].map((item) => (
                 <li key={item}>
                   <a
                     href="/"
@@ -296,7 +292,8 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <p className="text-gray-400 text-sm">
-            © Copyright by NovaStore. All rights reserved. Home Page Designed By Samuel Gachuru.
+            © Copyright by NovaStore. All rights reserved. Home Page Designed By
+            Samuel Gachuru.
           </p>
 
           {/* Legal links — the <a tag was missing here, that was the bug */}
