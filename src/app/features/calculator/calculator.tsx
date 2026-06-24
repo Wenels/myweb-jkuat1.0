@@ -144,7 +144,7 @@ export default function Calculator() {
 
     if (label === "%") {
       // Convert to percentage
-      setDisplay((prev) => String(parseFloat(prev) / 100));
+      setDisplay((prev) => String(Number.parseFloat(prev) / 100));
       return;
     }
 
@@ -158,7 +158,7 @@ export default function Calculator() {
 
         const result = evaluateExpression(expr);
         // Format result to prevent floating point issues, limiting to 10 decimal places
-        const formattedResult = parseFloat(result.toFixed(10));
+        const formattedResult = Number.parseFloat(result.toFixed(10));
         setDisplay(String(formattedResult));
         setExpression("");
         setCalculated(true);
