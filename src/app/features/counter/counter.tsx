@@ -1,15 +1,15 @@
 "use client";
 
 import { Minus, Plus, RotateCcw } from "lucide-react";
-import { useState } from "react";
+import { type FormEvent, useState } from "react";
 
 export default function Counter() {
   const [count, setCount] = useState(89);
   const [inputValue, setInputValue] = useState("");
 
-  const handleSetCustom = (e: React.FormEvent) => {
+  const handleSetCustom = (e: FormEvent) => {
     e.preventDefault();
-    const parsed = parseInt(inputValue, 10);
+    const parsed = Number.parseInt(inputValue, 10);
     if (!Number.isNaN(parsed)) {
       setCount(parsed);
       setInputValue("");
@@ -61,8 +61,8 @@ export default function Counter() {
       >
         <input
           type="number"
-          defaultValue={inputValue}
-          onChange={(e) => setCount(Number(e.target.value))}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           placeholder="Enter custom value..."
           className="flex-1 px-4 py-2.5 bg-slate-950/40 border border-slate-800 focus:border-indigo-500/50 rounded-2xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/10 text-center text-sm transition-all"
         />
