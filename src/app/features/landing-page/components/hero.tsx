@@ -3,7 +3,7 @@ import Image from "next/image";
 export default function Hero() {
   return (
     // Main section — dark navy background, full screen height, padding for navbar
-    <section className="min-h-screen bg-[#0a0d1a] flex items-center pt-16 overflow-hidden">
+    <section id="home" className="min-h-screen bg-[#0a0d1a] flex items-center pt-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-8 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* LEFT SIDE — Text content */}
         <div className="flex flex-col gap-6">

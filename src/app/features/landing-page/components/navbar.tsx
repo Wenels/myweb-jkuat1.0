@@ -3,8 +3,8 @@
 // Old nav items (commented out - replaced with e-commerce items below)
 // import { CreditCard, Home, Layers, QrCode, User } from "lucide-react";
 
-import { Heart, Home, ShoppingBag, ShoppingCart, User } from "lucide-react"; // Import icons from lucide-react library
-import { useState } from "react"; // useState hook lets us track which nav item is active
+import { Heart, Home, Info, Mail, ShoppingBag, ShoppingCart, User } from "lucide-react"; // Import icons from lucide-react library
+import { useEffect, useState } from "react"; // hooks to manage state and scroll effects
 
 // Old navigation items (commented out - these were for a banking/finance app)
 // const NAV_ITEMS = [
@@ -15,10 +15,12 @@ import { useState } from "react"; // useState hook lets us track which nav item 
 //   { icon: User, label: "Profile" },
 // ];
 
-// Array of nav items — each has an icon component and a label string
+// Array of nav items — each has an icon component, a label string, and optional targetId for scrolling
 const NAV_ITEMS = [
-  { icon: Home, label: "HOUSE" }, // Home page
-  { icon: ShoppingBag, label: "Products" }, // Products/shop page
+  { icon: Home, label: "Home", targetId: "home" }, // Home page
+  { icon: ShoppingBag, label: "Products", targetId: "products" }, // Products/shop page
+  { icon: Info, label: "About", targetId: "about" }, // About page
+  { icon: Mail, label: "Contact", targetId: "contact" }, // Contact page
   { icon: ShoppingCart, label: "Cart" }, // Shopping cart
   { icon: Heart, label: "Wishlist" }, // Saved/liked items
   { icon: User, label: "Profile" }, // User profile
@@ -28,17 +30,62 @@ export default function Navbar() {
   // active stores which nav item is currently selected, default is "Home"
   const [active, setActive] = useState("Home");
 
+  // Track page scrolling to update active nav state based on visible section
+  useEffect(() => {
+    const sections = ["home", "products", "about", "contact"];
+    const observerOptions = {
+      root: null,
+      rootMargin: "-40% 0px -40% 0px", // Trigger when section is in middle of viewport
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          const labelMap: { [key: string]: string } = {
+            home: "Home",
+            products: "Products",
+            about: "About",
+            contact: "Contact",
+          };
+          if (labelMap[id]) {
+            setActive(labelMap[id]);
+          }
+        }
+      }
+    }, observerOptions);
+
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Handle clicking a navbar link
+  const handleNavClick = (label: string, targetId?: string) => {
+    setActive(label);
+    if (targetId) {
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     // Outer div — fixed to top of screen, spans full width, sits above everything (z-50)
     <div className="fixed top-0 left-0 right-0 z-50">
       {/* Nav bar — dark background, subtle bottom border, horizontal layout */}
       <nav className="flex items-center justify-around bg-[#192137] border-b border-white/10 px-6 py-2 shadow-2xl">
         {/* Loop through each nav item and render a button */}
-        {NAV_ITEMS.map(({ icon: Icon, label }) => (
+        {NAV_ITEMS.map(({ icon: Icon, label, targetId }) => (
           <button
             key={label} // Unique key for React to track each button
             type="button" // Prevents accidental form submission
-            onClick={() => setActive(label)} // Set this item as active when clicked
+            onClick={() => handleNavClick(label, targetId)} // Scroll to section or update active state
             className={`flex flex-col items-center justify-center gap-1 px-5 py-2 rounded-xl transition-all duration-200 min-w-[64px] ${
               active === label
                 ? "bg-[#2a3050] text-blue-400" // Active styles — blue highlight
