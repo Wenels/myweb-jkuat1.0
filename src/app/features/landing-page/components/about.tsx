@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function About() {
   return (
@@ -53,12 +54,12 @@ export default function About() {
 
             {/* Button */}
             <div className="flex items-center gap-6">
-              <button
-                type="button"
+              <Link
+                href="/about"
                 className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 hover:scale-105"
               >
                 Read Our Story
-              </button>
+              </Link>
             </div>
 
             {/* Colored dots */}
