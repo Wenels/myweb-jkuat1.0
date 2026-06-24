@@ -3,7 +3,16 @@
 // Old nav items (commented out - replaced with e-commerce items below)
 // import { CreditCard, Home, Layers, QrCode, User } from "lucide-react";
 
-import { Heart, Home, Info, Mail, ShoppingBag, ShoppingCart, User } from "lucide-react"; // Import icons from lucide-react library
+import {
+  Heart,
+  Home,
+  Info,
+  Mail,
+  ShoppingBag,
+  ShoppingCart,
+  User,
+} from "lucide-react"; // Import icons from lucide-react library
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react"; // hooks to manage state and scroll effects
 
 // Old navigation items (commented out - these were for a banking/finance app)
@@ -27,11 +36,23 @@ const NAV_ITEMS = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   // active stores which nav item is currently selected, default is "Home"
   const [active, setActive] = useState("Home");
 
+  // Keep navbar active tab in sync with the route
+  useEffect(() => {
+    if (pathname === "/about") {
+      setActive("About");
+    }
+  }, [pathname]);
+
   // Track page scrolling to update active nav state based on visible section
   useEffect(() => {
+    if (pathname !== "/") return;
+
     const sections = ["home", "products", "about", "contact"];
     const observerOptions = {
       root: null,
@@ -62,15 +83,27 @@ export default function Navbar() {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   // Handle clicking a navbar link
   const handleNavClick = (label: string, targetId?: string) => {
     setActive(label);
+
+    if (label === "About") {
+      router.push("/about");
+      return;
+    }
+
     if (targetId) {
-      const element = document.getElementById(targetId);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      if (pathname !== "/") {
+        // Navigate back to home page with section anchor
+        router.push(`/#${targetId}`);
+      } else {
+        // Smooth scroll on the home page itself
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
       }
     }
   };
