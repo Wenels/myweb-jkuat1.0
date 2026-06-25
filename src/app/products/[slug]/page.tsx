@@ -23,6 +23,17 @@ export default function ProductSlugPage({
   // Find the product that matches the slug from the URL
   const product = PRODUCTS.find((p) => p.slug === resolvedParams.slug);
 
+  // Get up to 4 related products, prioritizing the same category
+  const relatedProducts = product
+    ? PRODUCTS.filter((p) => p.id !== product.id)
+        .sort((a, b) => {
+          const aMatch = a.category === product.category ? 1 : 0;
+          const bMatch = b.category === product.category ? 1 : 0;
+          return bMatch - aMatch;
+        })
+        .slice(0, 4)
+    : [];
+
   // Track which image is currently shown as main
   const [activeImage, setActiveImage] = useState(0);
 
@@ -345,6 +356,54 @@ export default function ProductSlugPage({
             ))}
           </div>
         </div>
+
+        {/* Related Products section */}
+        {relatedProducts.length > 0 && (
+          <div className="mt-20 border-t border-white/10 pt-16">
+            <h2 className="text-2xl font-black text-white mb-8">
+              Related Products
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {relatedProducts.map((p) => (
+                <Link
+                  key={p.id}
+                  href={`/products/${p.slug}`}
+                  className="bg-slate-800/50 border border-slate-700/50 rounded-2xl overflow-hidden hover:border-indigo-500/50 transition-all duration-300 group hover:-translate-y-1"
+                >
+                  {/* Image area */}
+                  <div className="relative bg-slate-700/50 flex items-center justify-center h-48 overflow-hidden">
+                    {p.badge && (
+                      <span className="absolute top-3 left-3 z-10 bg-indigo-500 text-white text-xs font-semibold px-2 py-0.5 rounded-md">
+                        {p.badge}
+                      </span>
+                    )}
+                    <Image
+                      src={p.images[0]}
+                      alt={p.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+
+                  {/* Info area */}
+                  <div className="p-4 flex flex-col gap-2">
+                    <p className="text-slate-400 text-xs">{p.category}</p>
+                    <h3 className="text-white font-bold text-sm">{p.name}</h3>
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-white font-bold text-sm">
+                        ${p.price.toFixed(2)}
+                      </span>
+                      <span className="text-slate-500 text-xs line-through">
+                        ${p.oldPrice.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </main>
   );
