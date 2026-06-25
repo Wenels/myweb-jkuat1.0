@@ -1,74 +1,76 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Heart, ShoppingCart } from "lucide-react";
+import { Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-
-// Product data — watches with Unsplash images
-import { PRODUCTS } from "./productsdata";
+import { PRODUCTS } from "../features/landing-page/components/productsdata";
 
 // Category filter options
 const CATEGORIES = [
+  { label: "All", emoji: "🔍" },
   { label: "Smart Watches", emoji: "⌚" },
   { label: "Fitness Bands", emoji: "💪" },
   { label: "Luxury Watches", emoji: "💎" },
   { label: "Kids Watches", emoji: "🧒" },
 ];
 
-const INITIAL_VISIBLE = 4;
-
-export default function Products() {
+export default function ProductsPage() {
   // Track active category filter
-  const [activeCategory, setActiveCategory] = useState("Smart Watches");
+  const [activeCategory, setActiveCategory] = useState("All");
 
-  // Track how many products to show
-  const [showAll, setShowAll] = useState(false);
+  // Track search query
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Track wishlisted products
   const [wishlisted, setWishlisted] = useState<number[]>([]);
 
   // Toggle wishlist on/off for a product
-  const toggleWishlist = (id: number) => {
+  const toggleWishlist = (id: number, e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent navigating to detail page
+    e.stopPropagation();
     setWishlisted((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
     );
   };
 
-  // Filter products by active category
-  const filtered = PRODUCTS.filter((p) => p.category === activeCategory);
-
-  // Show only 4 initially, all when showAll is true
-  const visible = showAll ? filtered : filtered.slice(0, INITIAL_VISIBLE);
+  // Filter products by active category & search query
+  const filtered = PRODUCTS.filter((p) => {
+    const matchesCategory =
+      activeCategory === "All" || p.category === activeCategory;
+    const matchesSearch =
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
-    <section id="products" className="bg-[#0f172a] py-24">
+    <main className="min-h-screen bg-[#0a0d1a] pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-8">
-        {/* Header row */}
-        <div className="flex items-start justify-between mb-6">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b border-white/10 pb-8">
           <div>
-            {/* Small label */}
-            <p className="text-indigo-400 text-sm font-semibold flex items-center gap-1 mb-2">
-              ✦ Our Specialty
+            <p className="text-indigo-400 text-sm font-semibold uppercase tracking-widest mb-2">
+              ✦ Catalog
             </p>
-            {/* Main title */}
-            <h2 className="text-4xl font-black text-white">Top Categories</h2>
+            <h1 className="text-4xl md:text-5xl font-black text-white">
+              Our Products
+            </h1>
+            <p className="text-slate-400 mt-2 max-w-xl">
+              Explore our premium smart watches and fitness trackers designed to
+              complement your lifestyle and fitness goals.
+            </p>
           </div>
 
-          {/* Arrow navigation buttons — indigo to match hero */}
-          <div className="flex items-center gap-2 mt-2">
-            <button
-              type="button"
-              className="w-10 h-10 rounded-full bg-slate-700 hover:bg-indigo-500 flex items-center justify-center text-white transition-colors"
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              type="button"
-              className="w-10 h-10 rounded-full bg-indigo-500 hover:bg-indigo-600 flex items-center justify-center text-white transition-colors"
-            >
-              <ChevronRight size={20} />
-            </button>
+          {/* Search bar */}
+          <div className="w-full md:w-80">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-slate-800/50 border border-slate-700 focus:border-indigo-500 text-white placeholder-slate-500 rounded-xl px-4 py-3 text-sm outline-none transition-colors"
+            />
           </div>
         </div>
 
@@ -78,10 +80,7 @@ export default function Products() {
             <button
               key={label}
               type="button"
-              onClick={() => {
-                setActiveCategory(label);
-                setShowAll(false);
-              }}
+              onClick={() => setActiveCategory(label)}
               className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-all duration-200 ${
                 activeCategory === label
                   ? "bg-indigo-500 border-indigo-500 text-white"
@@ -91,7 +90,10 @@ export default function Products() {
               <span>{emoji}</span>
               {label}
               <span className="text-xs opacity-60">
-                · {PRODUCTS.filter((p) => p.category === label).length} Products
+                ·{" "}
+                {label === "All"
+                  ? PRODUCTS.length
+                  : PRODUCTS.filter((p) => p.category === label).length}
               </span>
             </button>
           ))}
@@ -99,8 +101,8 @@ export default function Products() {
 
         {/* Product grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {visible.length > 0 ? (
-            visible.map((product) => (
+          {filtered.length > 0 ? (
+            filtered.map((product) => (
               <Link
                 key={product.id}
                 href={`/products/${product.slug}`}
@@ -118,11 +120,7 @@ export default function Products() {
                   {/* Wishlist heart button */}
                   <button
                     type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      toggleWishlist(product.id);
-                    }}
+                    onClick={(e) => toggleWishlist(product.id, e)}
                     className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-slate-900/80 shadow flex items-center justify-center transition-colors"
                   >
                     <Heart
@@ -198,7 +196,7 @@ export default function Products() {
                       className="flex items-center gap-1 bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors duration-200"
                     >
                       <ShoppingCart size={12} />
-                      Add to cart
+                      Add
                     </button>
                   </div>
                 </div>
@@ -207,33 +205,11 @@ export default function Products() {
           ) : (
             // Empty state
             <div className="col-span-4 text-center py-16 text-slate-400">
-              No products in this category yet.
+              No products found matching your search.
             </div>
           )}
         </div>
-
-        {/* View All Products button — links to /products page */}
-        <div className="mt-12 flex justify-center">
-          {filtered.length > INITIAL_VISIBLE && !showAll ? (
-            // Show more products in the same page first
-            <button
-              type="button"
-              onClick={() => setShowAll(true)}
-              className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-full transition-all duration-200"
-            >
-              Show More
-            </button>
-          ) : (
-            // Link to full products page
-            <Link
-              href="/products"
-              className="flex items-center gap-2 bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-full transition-all duration-200"
-            >
-              View All Products →
-            </Link>
-          )}
-        </div>
       </div>
-    </section>
+    </main>
   );
 }
