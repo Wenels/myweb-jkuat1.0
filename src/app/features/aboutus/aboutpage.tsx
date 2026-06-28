@@ -1,5 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function AboutPage() {
   return (
@@ -261,8 +267,9 @@ export default function AboutPage() {
           </h2>
         </div>
 
-        {/* Right — FAQ items */}
-        <div className="flex flex-col gap-4">
+        {/* Right — FAQ items — Shadcn Accordion */}
+        {/* Reference: https://ui.shadcn.com/docs/components/accordion */}
+        <Accordion type="single" collapsible className="flex flex-col gap-3">
           {[
             {
               q: "How do I sync my smart watch with my phone?",
@@ -285,23 +292,20 @@ export default function AboutPage() {
               a: "Yes! We ship to over 100 countries globally with tracking details provided as soon as your order is dispatched from our fulfillment center.",
             },
           ].map(({ q, a }) => (
-            <details
+            <AccordionItem
               key={q}
-              className="bg-slate-800/50 border border-slate-700/50 rounded-xl px-5 py-4 group"
+              value={q}
+              className="bg-slate-800/50 border border-slate-700/50 rounded-xl px-5"
             >
-              {/* Question */}
-              <summary className="text-white font-semibold text-sm cursor-pointer flex items-center justify-between list-none">
+              <AccordionTrigger className="text-white font-semibold text-sm hover:no-underline py-4">
                 {q}
-                {/* Plus/minus toggle */}
-                <span className="text-indigo-400 text-lg group-open:rotate-45 transition-transform duration-200">
-                  +
-                </span>
-              </summary>
-              {/* Answer */}
-              <p className="text-slate-400 text-sm mt-3 leading-relaxed">{a}</p>
-            </details>
+              </AccordionTrigger>
+              <AccordionContent className="text-slate-400 text-sm leading-relaxed pb-4">
+                {a}
+              </AccordionContent>
+            </AccordionItem>
           ))}
-        </div>
+        </Accordion>
       </section>
 
       {/* ===== SECTION 8 — CTA Banner ===== */}

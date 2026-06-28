@@ -3,6 +3,11 @@
 import { Mail, MapPin, Phone, Send } from "lucide-react";
 import type { ChangeEvent, JSX } from "react";
 import { useState } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 type SocialIconProps = {
   size?: number;
@@ -85,49 +90,45 @@ const Youtube = ({ size = 24 }: SocialIconProps): JSX.Element => (
 type FormChangeEvent = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
 export default function ContactUs() {
-  // Track form field values
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [loading, setLoading] = useState(false);
 
-  // Track if form was submitted
-  const [submitted, setSubmitted] = useState(false);
-
-  // Update form state when user types
   const handleChange = (e: FormChangeEvent): void => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Handle submit button click
+  // On submit, show a Sonner toast notification instead of an inline success block
   const handleSubmit = (): void => {
     if (!form.name || !form.email || !form.message) return;
-    setSubmitted(true);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      toast.success("Message sent!", {
+        description: `We'll get back to you at ${form.email} shortly.`,
+      });
+      setForm({ name: "", email: "", message: "" });
+    }, 800);
   };
 
   return (
-    // Main section — dark background, full padding
     <section id="contact" className="bg-[#0f172a] py-24">
       <div className="max-w-7xl mx-auto px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
           {/* LEFT SIDE — Contact info */}
           <div className="flex flex-col gap-8">
-            {/* Headline */}
             <h2 className="text-5xl font-black text-white leading-tight">
               Let's talk
             </h2>
 
-            {/* Subtext */}
             <p className="text-slate-400 text-lg leading-relaxed">
               We collaborate with thousands of creators, entrepreneurs and
               complete legends.
             </p>
 
-            {/* Divider */}
             <div className="border-t border-white/10" />
 
-            {/* Contact items */}
             <div className="flex flex-col gap-6">
-              {/* Email */}
               <div className="flex items-center gap-4">
-                {/* Blue circle icon */}
                 <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
                   <Mail size={20} className="text-white" />
                 </div>
@@ -137,7 +138,6 @@ export default function ContactUs() {
                 </div>
               </div>
 
-              {/* Phone */}
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
                   <Phone size={20} className="text-white" />
@@ -148,7 +148,6 @@ export default function ContactUs() {
                 </div>
               </div>
 
-              {/* Location */}
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
                   <MapPin size={20} className="text-white" />
@@ -160,10 +159,8 @@ export default function ContactUs() {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="border-t border-white/10" />
 
-            {/* Social icons */}
             <div className="flex items-center gap-4">
               {[
                 { Icon: Linkedin, id: "linkedin" },
@@ -183,102 +180,80 @@ export default function ContactUs() {
             </div>
           </div>
 
-          {/* RIGHT SIDE — Contact form card */}
+          {/* RIGHT SIDE — Shadcn-powered contact form */}
+          {/* Reference: https://ui.shadcn.com/docs/components/input */}
+          {/* Reference: https://ui.shadcn.com/docs/components/textarea */}
+          {/* Reference: https://ui.shadcn.com/docs/components/button */}
+          {/* Reference: https://ui.shadcn.com/docs/components/sonner */}
           <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-8">
-            {/* Success state */}
-            {submitted ? (
-              <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
-                <div className="text-5xl">✅</div>
-                <h3 className="text-white font-bold text-xl">Message sent!</h3>
-                <p className="text-slate-400 text-sm">
-                  We'll get back to you at{" "}
-                  <span className="text-indigo-400 font-medium">
-                    {form.email}
-                  </span>{" "}
-                  shortly.
-                </p>
-                {/* Reset form */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSubmitted(false);
-                    setForm({ name: "", email: "", message: "" });
-                  }}
-                  className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm underline transition-colors"
+            <div className="flex flex-col gap-6">
+              {/* Name field */}
+              <div className="flex flex-col gap-2">
+                <Label
+                  htmlFor="name-input"
+                  className="text-white text-sm font-medium"
                 >
-                  Send another message
-                </button>
+                  Name
+                </Label>
+                <Input
+                  id="name-input"
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  placeholder="Jane Smith"
+                  className="bg-slate-900/70 border-slate-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500/20 text-white placeholder:text-slate-600 rounded-xl h-12"
+                />
               </div>
-            ) : (
-              <div className="flex flex-col gap-6">
-                {/* Name field */}
-                <div className="flex flex-col gap-2">
-                  <label
-                    htmlFor="name-input"
-                    className="text-white text-sm font-medium"
-                  >
-                    Name
-                  </label>
-                  <input
-                    id="name-input"
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    placeholder="Jane Smith"
-                    className="bg-slate-900/70 border border-slate-700 focus:border-indigo-500 text-white placeholder-slate-600 rounded-xl px-4 py-3 text-sm outline-none transition-colors"
-                  />
-                </div>
 
-                {/* Email field */}
-                <div className="flex flex-col gap-2">
-                  <label
-                    htmlFor="email-input"
-                    className="text-white text-sm font-medium"
-                  >
-                    Email
-                  </label>
-                  <input
-                    id="email-input"
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    placeholder="jane@example.com"
-                    className="bg-slate-900/70 border border-slate-700 focus:border-indigo-500 text-white placeholder-slate-600 rounded-xl px-4 py-3 text-sm outline-none transition-colors"
-                  />
-                </div>
-
-                {/* Message field */}
-                <div className="flex flex-col gap-2">
-                  <label
-                    htmlFor="message-input"
-                    className="text-white text-sm font-medium"
-                  >
-                    Message
-                  </label>
-                  <textarea
-                    id="message-input"
-                    name="message"
-                    value={form.message}
-                    onChange={handleChange}
-                    rows={5}
-                    placeholder="I want to collaborate..."
-                    className="bg-slate-900/70 border border-slate-700 focus:border-indigo-500 text-white placeholder-slate-600 rounded-xl px-4 py-3 text-sm outline-none transition-colors resize-none"
-                  />
-                </div>
-
-                {/* Submit button */}
-                <button
-                  type="button"
-                  onClick={handleSubmit}
-                  disabled={!form.name || !form.email || !form.message}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-xl transition-colors duration-200"
+              {/* Email field */}
+              <div className="flex flex-col gap-2">
+                <Label
+                  htmlFor="email-input"
+                  className="text-white text-sm font-medium"
                 >
-                  Submit
-                </button>
+                  Email
+                </Label>
+                <Input
+                  id="email-input"
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  placeholder="jane@example.com"
+                  className="bg-slate-900/70 border-slate-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500/20 text-white placeholder:text-slate-600 rounded-xl h-12"
+                />
               </div>
-            )}
+
+              {/* Message field */}
+              <div className="flex flex-col gap-2">
+                <Label
+                  htmlFor="message-input"
+                  className="text-white text-sm font-medium"
+                >
+                  Message
+                </Label>
+                <Textarea
+                  id="message-input"
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  rows={5}
+                  placeholder="I want to collaborate..."
+                  className="bg-slate-900/70 border-slate-700 focus-visible:border-indigo-500 focus-visible:ring-indigo-500/20 text-white placeholder:text-slate-600 rounded-xl resize-none"
+                />
+              </div>
+
+              {/* Submit button */}
+              <Button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!form.name || !form.email || !form.message || loading}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold h-12 rounded-xl transition-colors duration-200"
+              >
+                {loading ? "Sending..." : "Submit"}
+              </Button>
+            </div>
           </div>
         </div>
       </div>

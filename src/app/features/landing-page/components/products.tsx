@@ -4,6 +4,8 @@ import { ChevronLeft, ChevronRight, Heart, ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 // Product data — watches with Unsplash images
 import { PRODUCTS } from "./productsdata";
@@ -108,11 +110,11 @@ export default function Products() {
               >
                 {/* Product image area */}
                 <div className="relative bg-slate-700/50 flex items-center justify-center h-48 overflow-hidden">
-                  {/* Trending badge */}
+                  {/* Trending badge — Shadcn Badge */}
                   {product.badge && (
-                    <span className="absolute top-3 left-3 z-10 bg-indigo-500 text-white text-xs font-semibold px-2 py-0.5 rounded-md">
+                    <Badge className="absolute top-3 left-3 z-10 bg-indigo-500 hover:bg-indigo-500 text-white text-xs font-semibold border-0">
                       {product.badge}
-                    </span>
+                    </Badge>
                   )}
 
                   {/* Wishlist heart button */}
@@ -188,18 +190,19 @@ export default function Products() {
                       </span>
                     </div>
 
-                    {/* Add to cart button */}
-                    <button
+                    {/* Add to cart button — Shadcn Button */}
+                    <Button
                       type="button"
+                      size="sm"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                       }}
-                      className="flex items-center gap-1 bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors duration-200"
+                      className="flex items-center gap-1 bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white text-xs font-semibold rounded-lg border-0"
                     >
                       <ShoppingCart size={12} />
                       Add to cart
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </Link>

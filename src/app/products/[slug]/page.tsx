@@ -12,6 +12,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { use, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { PRODUCTS } from "../../features/landing-page/components/productsdata";
 
 export default function ProductSlugPage({
@@ -135,11 +137,11 @@ export default function ProductSlugPage({
                 </button>
               )}
 
-              {/* Badge */}
+              {/* Badge — Shadcn Badge */}
               {product.badge && (
-                <span className="absolute top-4 left-4 bg-indigo-500 text-white text-xs font-semibold px-3 py-1 rounded-full z-10">
+                <Badge className="absolute top-4 left-4 bg-indigo-500 hover:bg-indigo-500 text-white text-xs font-semibold z-10 border-0">
                   {product.badge}
-                </span>
+                </Badge>
               )}
             </div>
 
@@ -207,10 +209,10 @@ export default function ProductSlugPage({
               <span className="text-slate-500 text-xl line-through">
                 ${product.oldPrice.toFixed(2)}
               </span>
-              {/* Discount badge */}
-              <span className="bg-green-500/20 text-green-400 text-sm font-semibold px-2 py-0.5 rounded-full">
+              {/* Savings badge — Shadcn Badge */}
+              <Badge className="bg-green-500/20 text-green-400 text-sm font-semibold border-0 hover:bg-green-500/20">
                 Save ${(product.oldPrice - product.price).toFixed(2)}
-              </span>
+              </Badge>
             </div>
 
             {/* Description */}
@@ -269,16 +271,16 @@ export default function ProductSlugPage({
               </div>
             </div>
 
-            {/* Action buttons */}
+            {/* Action buttons — Shadcn Button */}
             <div className="flex items-center gap-4">
-              {/* Add to cart */}
-              <button
+              {/* Add to cart — Reference: https://ui.shadcn.com/docs/components/button */}
+              <Button
                 type="button"
                 onClick={handleAddToCart}
-                className={`flex-1 flex items-center justify-center gap-2 font-semibold py-4 rounded-xl transition-all duration-200 ${
+                className={`flex-1 flex items-center justify-center gap-2 font-semibold h-14 rounded-xl transition-all duration-200 border-0 ${
                   added
-                    ? "bg-green-500 text-white"
-                    : "bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white"
+                    ? "bg-green-500 hover:bg-green-500 text-white"
+                    : "bg-indigo-500 hover:bg-indigo-600 text-white"
                 }`}
               >
                 {added ? (
@@ -292,13 +294,15 @@ export default function ProductSlugPage({
                     Add to Cart
                   </>
                 )}
-              </button>
+              </Button>
 
               {/* Wishlist button */}
-              <button
+              <Button
                 type="button"
+                variant="outline"
+                size="icon-lg"
                 onClick={() => setWishlisted((w) => !w)}
-                className="w-14 h-14 rounded-xl border border-slate-700 hover:border-indigo-500 flex items-center justify-center transition-all"
+                className="w-14 h-14 rounded-xl border-slate-700 hover:border-indigo-500 bg-transparent"
               >
                 <Heart
                   size={20}
@@ -308,7 +312,7 @@ export default function ProductSlugPage({
                       : "text-slate-400"
                   }
                 />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
